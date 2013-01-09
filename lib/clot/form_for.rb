@@ -164,6 +164,12 @@ module Clot
           @model = change_object_name.new(change_object.new)
           @model.defaults(context)
           context[@form_object] = @model
+        elsif @form_object == "signup"
+          @model = Person.new.to_liquid
+          if @model.source.new_record?
+            @model.defaults(context)
+            context[@form_object] = @model
+          end
         else
           @model = @form_object.classify.constantize.new.to_liquid
           if @model.source.new_record?
