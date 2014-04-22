@@ -102,7 +102,7 @@ module Clot
         return allowed_params.include?(attribute)
       else
         allowed_params.each do |allowed|
-          if allowed.is_a?(Hash) && allowed.keys.first == attribute
+          if allowed.is_a?(Hash) && (allowed.keys.first == attribute || allowed.keys.first == :"#{attribute}_attributes")
             new_params = allowed.values.first.is_a?(Array) ? allowed.values.first : [allowed.values.first]
             return check_params(new_params, attribute_names[1..-1])
           end
