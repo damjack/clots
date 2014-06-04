@@ -146,14 +146,10 @@ module Clot
         @activity = @attributes["post_method"]
       end
 
-      if @tag_name == "secure_form_for"
+      if @tag_name == "secure_form_for" || FeatureFlag.https_forms?
         uri = URI.parse @form_action
-        uri.host   = context['site'].nbuild_domain
-        if Rails.env.production? || Rails.env.staging?
-          uri.scheme = "https"
-        else
-          uri.scheme = "https"
-        end
+        uri.host = context['site'].nbuild_url
+        uri.scheme = (Rails.env.production? || Rails.env.staging?) ? "https" : "http"
         @form_action = uri.to_s
       end
 
