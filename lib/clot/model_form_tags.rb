@@ -15,6 +15,9 @@ module Clot
         end
         @item = context[@first_attr]
       end
+
+      return if @attribute_name.nil?
+
       attribute_names = @attribute_name.split('.')
 
       if @item.class.respond_to?(:allowed_params)
