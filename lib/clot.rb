@@ -18,21 +18,21 @@ module Clot
 	BASE_PATH = File.join(File.expand_path(File.dirname(__FILE__)), 'clot')
 	# require File.join(BASE_PATH, 'extensions')
 
-	autoload :BaseDrop,					File.join(BASE_PATH, 'base_drop')
-	autoload :ContentFor,				File.join(BASE_PATH, 'content_for')
-	autoload :Deprecated,				File.join(BASE_PATH, 'deprecated')
-	autoload :DateTags,					File.join(BASE_PATH, 'date_tags')
-	autoload :FormFor,					File.join(BASE_PATH, 'form_for')
-	autoload :FormTag,					File.join(BASE_PATH, 'form_tag')
-	autoload :ModelDateTags,		File.join(BASE_PATH, 'model_date_tags')
-	autoload :ModelFormTags,		File.join(BASE_PATH, 'model_form_tags')
-	autoload :NoModelFormTags,	File.join(BASE_PATH, 'no_model_form_tags')
-	autoload :UrlFilters,				File.join(BASE_PATH, 'url_filters')
-	autoload :Yield,						File.join(BASE_PATH, 'yield')
+	autoload :BaseDrop,					File.join(BASE_PATH, 'base_drop.rb')
+	autoload :ContentFor,				File.join(BASE_PATH, 'content_for.rb')
+	autoload :Deprecated,				File.join(BASE_PATH, 'deprecated.rb')
+	autoload :DateTags,					File.join(BASE_PATH, 'date_tags.rb')
+	autoload :FormFor,					File.join(BASE_PATH, 'form_for.rb')
+	autoload :FormTag,					File.join(BASE_PATH, 'form_tag.rb')
+	autoload :ModelDateTags,		File.join(BASE_PATH, 'model_date_tags.rb')
+	autoload :ModelFormTags,		File.join(BASE_PATH, 'model_form_tags.rb')
+	autoload :NoModelFormTags,	File.join(BASE_PATH, 'no_model_form_tags.rb')
+	autoload :UrlFilters,				File.join(BASE_PATH, 'url_filters.rb')
+	autoload :Yield,						File.join(BASE_PATH, 'yield.rb')
 	autoload :VERSION,					File.join(BASE_PATH, 'version')
 
 	if defined?(Rails) # Rails only features
-		autoload :BaseDrop,				File.join(BASE_PATH, 'base_drop')
+		autoload :BaseDrop,				File.join(BASE_PATH, 'base_drop.rb')
 		require File.join(BASE_PATH, 'engine')
 	end
 
