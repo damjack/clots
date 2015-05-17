@@ -1,4 +1,4 @@
-# Clots
+# Clot-solid
 
 This project seeks to implement extensions for liquid whereby it has the power of other template libraries.
 
@@ -152,6 +152,6 @@ We have tried to write tests for all aspects of our plugin.  Reading the tests i
 
 ## Ruby Versions
 
-We support Ruby 1.8.7 and 1.9.1
+We support all Ruby Version
 
 Copyright (c) 2008 Ludicast

@@ -22,11 +22,6 @@ module Clot
       object_url(target, class_name) + object_url(nested_target, nested_class_name) + "/edit"
     end
 
-    def stylesheet_url(sheetname)
-      url =  "/stylesheets/" + sheetname + ".css"
-      url
-    end
-
     def edit_link(obj, text="Edit")
       url = ( obj.kind_of?( Liquid::Drop ) ? object_url( obj ) : obj )
       "<a href=\"#{url}/edit\">#{text}</a>"

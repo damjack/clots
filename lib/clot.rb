@@ -1,4 +1,6 @@
-require 'clot/active_record/droppable'
+require 'liquid'
+require 'solid'
+
 require 'clot/base_drop'
 require 'clot/content_for'
 require 'clot/date_tags'
@@ -11,18 +13,38 @@ require 'clot/mongo_mapper/droppable'
 require 'clot/no_model_form_tags'
 require 'clot/url_filters'
 require 'clot/yield'
-require 'extras/liquid_view'
-require 'mongo_mapper'
+
+module Clot
+	BASE_PATH = File.join(File.expand_path(File.dirname(__FILE__)), 'clot')
+	# require File.join(BASE_PATH, 'extensions')
+
+	autoload :BaseDrop,					File.join(BASE_PATH, 'base_drop')
+	autoload :ContentFor,				File.join(BASE_PATH, 'content_for')
+	autoload :Deprecated,				File.join(BASE_PATH, 'deprecated')
+	autoload :DateTags,					File.join(BASE_PATH, 'date_tags')
+	autoload :FormFor,					File.join(BASE_PATH, 'form_for')
+	autoload :FormTag,					File.join(BASE_PATH, 'form_tag')
+	autoload :ModelDateTags,		File.join(BASE_PATH, 'model_date_tags')
+	autoload :ModelFormTags,		File.join(BASE_PATH, 'model_form_tags')
+	autoload :NoModelFormTags,	File.join(BASE_PATH, 'no_model_form_tags')
+	autoload :UrlFilters,				File.join(BASE_PATH, 'url_filters')
+	autoload :Yield,						File.join(BASE_PATH, 'yield')
+	autoload :VERSION,					File.join(BASE_PATH, 'version')
+
+	if defined?(Rails) # Rails only features
+		autoload :BaseDrop,				File.join(BASE_PATH, 'base_drop')
+		require File.join(BASE_PATH, 'engine')
+	end
+
+	SyntaxError = Class.new(Liquid::SyntaxError)
+end
 
 Liquid::Template.register_filter Clot::UrlFilters
 Liquid::Template.register_filter Clot::LinkFilters
 Liquid::Template.register_filter Clot::FormFilters
 
 Liquid::Template.register_tag('error_messages_for', Clot::ErrorMessagesFor)
-Liquid::Template.register_tag('formfor', Clot::LiquidFormFor)
 Liquid::Template.register_tag('form_for', Clot::LiquidFormFor)
-Liquid::Template.register_tag('secure_form_for', Clot::LiquidFormFor)
-Liquid::Template.register_tag('yield', Clot::Yield)
 Liquid::Template.register_tag('if_content_for', Clot::IfContentFor)
 Liquid::Template.register_tag('form_tag', Clot::FormTag)
 
@@ -63,23 +85,3 @@ Liquid::Template.register_tag('select_datetime', Clot::SelectDatetime)
 Liquid::Template.register_tag('date_select', Clot::DateSelect)
 Liquid::Template.register_tag('time_select', Clot::TimeSelect)
 Liquid::Template.register_tag('datetime_select', Clot::DatetimeSelect)
-
-ActiveRecord::Base.send(:include, Clot::ActiveRecord::Droppable)
-MongoMapper::Document.send(:include, Clot::MongoMapper::Droppable)
-
-LiquidView.class_eval do
-  alias :liquid_render :render
-
-  def render(template, local_assigns = nil)
-    @new_assigns = {}
-
-    @new_assigns['controller_name'] = @view.controller.controller_name
-    @new_assigns['action_name'] = @view.controller.action_name
-
-    if @view.controller.send :protect_against_forgery?
-      @new_assigns['auth_token'] = @view.controller.send :form_authenticity_token
-    end
-
-    liquid_render( template, local_assigns.merge!( @new_assigns ) )
-  end
-end

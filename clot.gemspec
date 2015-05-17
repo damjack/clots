@@ -1,9 +1,25 @@
-require 'rake'
+# -*- encoding: utf-8 -*-
+$:.push File.expand_path("../lib", __FILE__)
+require "clot/version"
 
 Gem::Specification.new do |s|
-  s.name        = 'clot'
-  s.summary     = "Clot"
-  s.authors     = ["Jim Gilliam"]
-  s.version     = "1.2"
-  s.files       = FileList["lib/**/*.rb"].to_a
+  s.name        = "clot-solid"
+  s.version     = Clot::VERSION
+  s.authors     = ["Jim Gilliam", "Damiano Giacomello"]
+  s.email       = ["giacomello.damiano@gmail.com"]
+  s.homepage    = ""
+  s.summary     = %q{Helpers for easily creating custom Liquid forms}
+  #s.description = %q{TODO: Write a gem description}
+
+	s.files         = `git ls-files`.split("\n")
+  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+	s.require_paths = ["lib"]
+
+  s.add_development_dependency "rspec"
+  s.add_development_dependency "i18n"
+
+	s.add_runtime_dependency "rake"
+  s.add_runtime_dependency "liquid", ">= 3.0.1"
+	s.add_runtime_dependency "tigerlily-solid", ">= 0.2.0"
 end

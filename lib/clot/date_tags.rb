@@ -2,7 +2,6 @@ require 'clot/date_tags'
 require 'clot/no_model_form_tags'
 
 module Clot
-
   class NumberedTag < ClotTag
 
     def value_string(val)

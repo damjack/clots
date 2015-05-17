@@ -109,8 +109,6 @@ module Clot
       silence_warnings {
         if @model.nil? || @model.source.nil?
           @activity = "new"
-        elsif @model.dropped_class == Searchlogic::Search
-          @activity = "search"
         elsif @form_object.include?("_change")
           @activity = "change"
         elsif @model.source.new_record? ||  @model.source.id.nil?
@@ -136,11 +134,7 @@ module Clot
       if @attributes["parent"]
         @form_action = object_url(context[@attributes["parent"]]) + @form_action
       end
-      if context.registers[:controller].params[:controller].split('/').first == 'users' or @form_action == '/accounts'
-        @form_action = "/users" + @form_action.gsub("/forms","")
-      elsif @activity != 'change'
-        @form_action = "/forms" + @form_action if not @form_action[0..5] == '/forms'
-      end
+
       unless @attributes["post_method"].nil?
         @form_action += '/' + @attributes["post_method"]
         @activity = @attributes["post_method"]
@@ -199,13 +193,6 @@ module Clot
 
     def get_form_header(context)
       cs = @class_name + "_form"
-      # temporarily taking out 'survey_question_response' from this list because i can't figure out why the javascript
-      # response on cagreens survey http://cagreens.nationbuilder.com/ga_dec2011_survey doesn't seem to work (it works everywhere else)
-      if ['comment', 'survey_response', 'face_tweet', 'feedback', 'volunteer_signup', 'event_rsvp', 'event_page', 'signup',
-          'password_reset', 'password', 'flag', 'nation_signup', 'blog_post_page', 'nation_signin', 'pledge', 'unsubscribe',
-          'account', 'petition_signature', 'suggestion_page', 'endorsement'].include?(@class_name) # hacky thing to make ajax forms work
-        cs = 'ajaxForm ' + cs
-      end
       if ['endorsement', 'suggestion_page', 'petition_signature'].include?(@class_name)
         @upload_info = ' enctype="multipart/form-data"'
       end
@@ -228,17 +215,6 @@ module Clot
       if context['page'] and not ['search', 'change'].include?(@activity)
         result += '<input name="page_id" type="hidden" value="' + context['page'].id.to_s + '"/>'
         result += '<input name="return_to" type="hidden" value="' + context['page'].full_url + '"/>'
-      end
-
-      if context['signup'] and ['profiles'].include?(context.registers[:controller].controller_name)
-        result += '<input name="signup_id" type="hidden" value="' + context['signup'].id.to_s + '"/>'
-      end
-
-      # this is a honeypot field
-      unless @class_name == 'password'
-        result += '<div class="email_address_form" style="display:none;">'
-        result += '<p><label for "email_address">Optional email code</label><br/><input name="email_address" type="text" class="text" id="email_address" autocomplete="off"/></p>'
-        result += '</div>'
       end
 
       result

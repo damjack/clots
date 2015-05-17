@@ -105,7 +105,7 @@ module Clot
 
 
       out = %{<input #{@data_error_message_string} #{@required_string} #{@accept_string}#{@disabled_string}#{@class_string}id="#{@id_string}" #{@max_length_string}name="#{@name_string}" #{@placeholder_string}#{@size_string}#{@onchange_string}type="#{@type}" #{@value_string}/>}
-      if @context && @context.registers[:controller].current_theme.api_version >= 2
+      if @context
         out += %{<span class="error-message">#{@error_message}</span>} if @error_message
       end
 

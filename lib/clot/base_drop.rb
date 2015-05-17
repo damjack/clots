@@ -32,6 +32,18 @@ module Clot
 
   class BaseDrop < Liquid::Drop
     extend DropAssociation
+		module ModelExtension
+			extend ActiveSupport::Concern
+
+			module ClassMethods
+
+				def to_drop
+					"#{self.name}Drop".constantize.new(current_scope || self)
+				end
+
+			end
+
+		end
 
     def self.included
       include Rails.application.routes.url_helpers

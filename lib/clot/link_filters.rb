@@ -12,7 +12,6 @@ module Clot
       content_tag :a, message, :href => url
     end
 
-
     def delete_link(target, message = "Delete", class_name = "")
       url = object_url target
       gen_delete_link(url, message, class_name)
@@ -57,45 +56,9 @@ module Clot
       '<link href="'+ stylesheet_url(sheet_name) +'"  media="screen" rel="stylesheet" type="text/css" />'
     end
 
-              %w{
-    def page_link_for(url, page, message)
-      "<a href=\"" + url + "?page=" + page.to_s + "\">" + message + "</a>"
-    end
+		def page_link_for(url, page, message)
+			"<a href=\"" + url + "?page=" + page.to_s + "\">" + message + "</a>"
+		end
 
-    def will_paginate(collection, url)
-      total = collection.total_pages
-
-      if total <= 1
-        return ""
-      end
-
-      links = '<div class="pagination-links">'
-      current = collection.current_page
-      if current > 1
-        links += page_link_for(url,1, "&lt;&lt;")  + " "
-        links += page_link_for(url,current - 1, "&lt;")  + " "
-      end
-
-       (1..(total)).each do |index|
-        if index != 1
-          links += " | "
-        end
-
-        if index == current
-          links += index.to_s
-        else
-          links += page_link_for(url,index,index.to_s)
-        end
-      end
-
-      if current < total
-        links += " " + page_link_for(url, current + 1, "&gt;")
-        links += " " + page_link_for(url, total, "&gt;&gt;")
-      end
-
-      links += "</div>"
-    end
-
-}
   end
 end
