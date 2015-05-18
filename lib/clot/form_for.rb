@@ -131,35 +131,25 @@ module Clot
       else
         syntax_error
       end
+
       if @attributes["parent"]
         @form_action = object_url(context[@attributes["parent"]]) + @form_action
+      end
+
+      if @attributes["url"]
+        @form_action = @attributes["url"]
       end
 
       unless @attributes["post_method"].nil?
         @form_action += '/' + @attributes["post_method"]
         @activity = @attributes["post_method"]
       end
-
-      if @tag_name == "secure_form_for"
-        uri = URI.parse @form_action
-        uri.host   = context['site'].nbuild_domain
-        if Rails.env.production? || Rails.env.staging?
-          uri.scheme = "https"
-        else
-          uri.scheme = "https"
-        end
-        @form_action = uri.to_s
-      end
-
     end
 
     def set_class
       @class_string = ""
       unless @attributes["class"].nil?
         @class_string += 'class="' + @attributes["class"] + '" '
-      end
-      unless @attributes["autocomplete"].nil?
-        @class_string += 'autocomplete="' + @attributes["autocomplete"] + '" '
       end
 
       @class_name = drop_class_to_table_item @model.class
@@ -196,11 +186,15 @@ module Clot
       if ['endorsement', 'suggestion_page', 'petition_signature'].include?(@class_name)
         @upload_info = ' enctype="multipart/form-data"'
       end
+      unless @attributes["class"].nil?
+        cs += ' ' + @attributes["class"] + ''
+      end
       if ['search', 'change'].include?(@activity)
         method_type = "GET"
       else
         method_type = "POST"
       end
+
       result = '<form class="' + cs + '" method="' + method_type + '" ' + @class_string + 'action="' + @form_action + '"' + @upload_info + '>'
       if @activity == "edit"
         result += '<input type="hidden" name="_method" value="PUT"/>'

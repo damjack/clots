@@ -1,6 +1,4 @@
-require 'liquid'
-require 'solid'
-
+require 'clot/version'
 require 'clot/base_drop'
 require 'clot/content_for'
 require 'clot/date_tags'
@@ -9,34 +7,34 @@ require 'clot/form_for'
 require 'clot/form_tag'
 require 'clot/model_date_tags'
 require 'clot/model_form_tags'
-require 'clot/mongo_mapper/droppable'
 require 'clot/no_model_form_tags'
 require 'clot/url_filters'
 require 'clot/yield'
 
-module Clot
-	BASE_PATH = File.join(File.expand_path(File.dirname(__FILE__)), 'clot')
-	# require File.join(BASE_PATH, 'extensions')
+require 'liquid'
+require 'solid'
+require 'active_support/concern'
 
-	autoload :BaseDrop,					File.join(BASE_PATH, 'base_drop.rb')
-	autoload :ContentFor,				File.join(BASE_PATH, 'content_for.rb')
-	autoload :Deprecated,				File.join(BASE_PATH, 'deprecated.rb')
-	autoload :DateTags,					File.join(BASE_PATH, 'date_tags.rb')
-	autoload :FormFor,					File.join(BASE_PATH, 'form_for.rb')
-	autoload :FormTag,					File.join(BASE_PATH, 'form_tag.rb')
-	autoload :ModelDateTags,		File.join(BASE_PATH, 'model_date_tags.rb')
-	autoload :ModelFormTags,		File.join(BASE_PATH, 'model_form_tags.rb')
-	autoload :NoModelFormTags,	File.join(BASE_PATH, 'no_model_form_tags.rb')
-	autoload :UrlFilters,				File.join(BASE_PATH, 'url_filters.rb')
-	autoload :Yield,						File.join(BASE_PATH, 'yield.rb')
-	autoload :VERSION,					File.join(BASE_PATH, 'version')
+module Clot
+	autoload :BaseDrop,					'clot/base_drop'
+	autoload :ContentFor,				'clot/content_for'
+	autoload :Deprecated,				'clot/deprecated'
+	autoload :DateTags,					'clot/date_tags'
+	autoload :FormFor,					'clot/form_for'
+	autoload :FormTag,					'clot/form_tag'
+	autoload :ModelDateTags,		'clot/model_date_tags'
+	autoload :ModelFormTags,		'clot/model_form_tags'
+	autoload :NoModelFormTags,	'clot/no_model_form_tags'
+	autoload :UrlFilters,				'clot/url_filters'
+	autoload :Yield,						'clot/yield'
+	autoload :VERSION,					'clot/version'
 
 	if defined?(Rails) # Rails only features
-		autoload :BaseDrop,				File.join(BASE_PATH, 'base_drop.rb')
-		require File.join(BASE_PATH, 'engine')
+		autoload :BaseDrop,				'clot/base_drop'
+		require 'clot/engine'
 	end
 
-	SyntaxError = Class.new(Liquid::SyntaxError)
+	# SyntaxError = Class.new(Liquid::SyntaxError)
 end
 
 Liquid::Template.register_filter Clot::UrlFilters

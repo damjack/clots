@@ -2,7 +2,7 @@ module Clot
 	class FormTag < LiquidForm
 
 		def get_form_header(context)
-			"<form action=\"#{resolve_value @form_object,context}\" method=\"#{@http_method}\"#{@upload_info}>"
+			"<form action=\"#{resolve_value(@form_object, context)}\" method=\"#{@http_method}\"#{@upload_info}>"
 		end
 		def get_form_errors
 			""
